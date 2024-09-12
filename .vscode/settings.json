@@ -16,6 +16,9 @@
         "pthread.h": "c",
         "string.h": "c",
         "types.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "stat.h": "c",
+        "assert.h": "c",
+        "mqueue.h": "c"
     }
 }
