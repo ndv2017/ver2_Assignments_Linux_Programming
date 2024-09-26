@@ -31,19 +31,19 @@ int main(void)
             {
                 printf("Type and enter to write into file: ");
                 fgets(write_buf, sizeof(write_buf), stdin);
-                write_buf[strcspn(write_buf, "\n")] = 0; // Remove newline character
+                write_buf[strcspn(write_buf, "\n")] = 0;        // Remove newline character
 
-                
                 FILE *file = fopen(CDEV_PATH, "w");
-                if (file == NULL) {
+                if (file == NULL)
+                {
                     perror("Failed to open file for writing");
                     exit(EXIT_FAILURE);
                 }
 
-                // Write to the file
+                /* Write to the file */
                 fwrite(write_buf, sizeof(char), strlen(write_buf), file);
+
                 fclose(file);
-                
                 printf("Data Writing ... Done!\n\n\n");
                 break;
             }
@@ -51,16 +51,19 @@ int main(void)
             case 2:
             {
                 FILE *file = fopen(CDEV_PATH, "r");
-                if (file == NULL) {
+                if (file == NULL) 
+                {
                     perror("Failed to open file for reading");
                     exit(EXIT_FAILURE);
                 }
 
                 printf("Data Reading ... \n");
                 printf("Data: ");
-                while (fgets(read_buf, sizeof(read_buf), file)) {
-                    printf("%s", read_buf); // Print each line read from the file
+                while (fgets(read_buf, sizeof(read_buf), file)) 
+                {
+                    printf("%s", read_buf);                        // Print each line read from the file
                 }
+
                 fclose(file);
                 printf("\nDone!\n\n\n");
                 break;
