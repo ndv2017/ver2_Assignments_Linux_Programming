@@ -30,7 +30,7 @@ void* thread1(void* arg)
     {
         pthread_mutex_lock(&mutex);
 
-        if (i == 1)
+        if (i == (NUMBER_OF_STUDENTS - 1))
             check = 0;
 
         printf("Nhap thong tin sinh vien:\n");
