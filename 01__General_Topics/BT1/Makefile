@@ -5,20 +5,28 @@ LIB_NAME 	:= teststatic
 
 CUR_DIR 	:= .
 BIN_DIR 	:= $(CUR_DIR)/bin
+$(shell mkdir -p $(BIN_DIR))
 INC_DIR 	:= $(CUR_DIR)/inc
 
 LIB_DIR 	:= $(CUR_DIR)/libs
 LIB_SHARED 	:= $(LIB_DIR)/shared
+# $(shell mkdir -p $(LIB_SHARED))
 LIB_STATIC 	:= $(LIB_DIR)/static
+$(shell mkdir -p $(LIB_STATIC))
 
 OBJ_DIR 	:= $(CUR_DIR)/obj
+$(shell mkdir -p $(OBJ_DIR))
+
 SRC_DIR 	:= $(CUR_DIR)/src
 
 # Tells the compiler to add 'INC_DIR' to the list of directories to search for header files
 INC_FLAGS 	:= -I $(INC_DIR)
 
-CC 			:= gcc
+CC 		:= gcc
 
+
+all: mk_objs mk_static
+	$(CC)   $(OBJ_DIR)/main.o -L$(LIB_STATIC) -l$(LIB_NAME) -o $(BIN_DIR)/statically-linked
 
 mk_objs:
 	$(CC) -c $(CUR_DIR)/main.c -o $(OBJ_DIR)/main.o $(INC_FLAGS)
@@ -30,13 +38,10 @@ mk_objs:
 mk_static:
 	ar rcs $(LIB_STATIC)/lib$(LIB_NAME).a $(OBJ_DIR)/my_SumOperation.o $(OBJ_DIR)/my_Hi.o
 
-all: mk_objs mk_static
-	$(CC)   $(OBJ_DIR)/main.o -L$(LIB_STATIC) -l$(LIB_NAME) -o $(BIN_DIR)/statically-linked
-
 clean:
-	rm -rf $(OBJ_DIR)/* 
-	rm -rf $(LIB_STATIC)/*
-	rm -rf $(BIN_DIR)/*
+	rm -rf $(OBJ_DIR) 
+	rm -rf $(LIB_DIR)
+	rm -rf $(BIN_DIR)
 
 
 
