@@ -1,8 +1,9 @@
 .PHONY: all clean
 
-all:
+all: clean
 	gcc -o main main.c
 	
 clean:
 	rm -rf main
-	rm -rf test.txt
+	rm -rf text.txt
+

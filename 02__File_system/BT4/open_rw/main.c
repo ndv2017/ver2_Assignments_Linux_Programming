@@ -6,14 +6,14 @@
 
 int main(void)
 {
-    const char *filename = "test.txt";
+    const char *filename = "text.txt";
     char buf1[20] = "12345";
     char buf2[20] = "6789";
 
     int fd = open(filename, O_RDWR | O_CREAT | O_APPEND, 0666);
     if (fd == -1)
     {
-        perror("open failed.");
+        perror("open failed.\n");
         close(fd);
         exit(1);
     }
@@ -21,7 +21,7 @@ int main(void)
     /* Write the content of buf1 to the file */
     if (write(fd, buf1, strlen(buf1)) ==  -1)
     {
-        perror("write failed.");
+        perror("write failed.\n");
         close(fd);
         exit(1);
     }
@@ -29,7 +29,7 @@ int main(void)
     /* Try to move the file pointer to the beginning of the file. */
     if (lseek(fd, 0, SEEK_SET) == -1)
     {
-        perror("lseek failed.");
+        perror("lseek failed.\n");
         close(fd);
         exit(1);
     }
@@ -37,7 +37,7 @@ int main(void)
     /* Attempt to write the content of buf2 to the file. */
     if (write(fd, buf2, strlen(buf2)) ==  -1)
     {
-        perror("write failed.");
+        perror("write failed.\n");
         close(fd);
         exit(1);
     }
@@ -52,3 +52,4 @@ int main(void)
     
     return 0;
 }
+
