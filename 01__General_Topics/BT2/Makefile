@@ -1,24 +1,32 @@
-.PHONY: mk_objs mk_shared install all clean 
+.PHONY: install all clean 
 
 
-LIB_NAME 	:= testshared
+LIB_NAME	:= testshared
 
-CUR_DIR 	:= .
-BIN_DIR 	:= $(CUR_DIR)/bin
-INC_DIR 	:= $(CUR_DIR)/inc
+CUR_DIR		:= .
+BIN_DIR		:= $(CUR_DIR)/bin
+$(shell mkdir -p $(BIN_DIR))
+INC_DIR		:= $(CUR_DIR)/inc
 
-LIB_DIR 	:= $(CUR_DIR)/libs
-LIB_SHARED 	:= $(LIB_DIR)/shared
-LIB_STATIC 	:= $(LIB_DIR)/static
+LIB_DIR		:= $(CUR_DIR)/libs
+LIB_SHARED	:= $(LIB_DIR)/shared
+$(shell mkdir -p $(LIB_SHARED))
+LIB_STATIC	:= $(LIB_DIR)/static
+# $(shell mkdir -p $(LIB_STATIC))
 
-OBJ_DIR 	:= $(CUR_DIR)/obj
-SRC_DIR 	:= $(CUR_DIR)/src
+OBJ_DIR		:= $(CUR_DIR)/obj
+$(shell mkdir -p $(OBJ_DIR))
+
+SRC_DIR		:= $(CUR_DIR)/src
 
 # Tells the compiler to add 'INC_DIR' to the list of directories to search for header files
-INC_FLAGS 	:= -I $(INC_DIR)
+INC_FLAGS	:= -I $(INC_DIR)
 
-CC 			:= gcc
+CC		:= gcc
 
+
+all: mk_objs mk_shared install
+	$(CC)  $(OBJ_DIR)/main.o -L$(LIB_SHARED) -l$(LIB_NAME) -o $(BIN_DIR)/use-shared-library
 
 mk_objs:
 	$(CC) -c $(CUR_DIR)/main.c -o $(OBJ_DIR)/main.o $(INC_FLAGS)
@@ -33,13 +41,11 @@ mk_shared:
 	$(CC) -shared $(OBJ_DIR)/my_SumOperation.o $(OBJ_DIR)/my_Hi.o -o $(LIB_SHARED)/lib$(LIB_NAME).so
 
 install:
-# need permission, run with 'sudo'
-	cp -f $(LIB_SHARED)/lib$(LIB_NAME).so /usr/lib
-
-all: mk_objs mk_shared install
-	$(CC)  $(OBJ_DIR)/main.o -L$(LIB_SHARED) -l$(LIB_NAME) -o $(BIN_DIR)/use-shared-library
+# need permission
+	sudo cp -f $(LIB_SHARED)/lib$(LIB_NAME).so /usr/lib
 
 clean:
-	rm -rf $(OBJ_DIR)/*
-	rm -rf $(LIB_SHARED)/*
-	rm -rf $(BIN_DIR)/*
+	rm -rf $(OBJ_DIR)
+	rm -rf $(LIB_DIR)
+	rm -rf $(BIN_DIR)
+
