@@ -4,10 +4,10 @@
 #include <bits/types/sigset_t.h>
 #include <unistd.h>
 
-/* Values for the HOW argument to `sigprocmask'.  */
-#define	SIG_BLOCK     0		 /* Block signals.  */
-#define	SIG_UNBLOCK   1		 /* Unblock signals.  */
-#define	SIG_SETMASK   2		 /* Set the set of blocked signals.  */
+/* Values for the first argument (int how) of sigprocmask.  */
+#define	SIG_BLOCK     0		 /* Block signals */
+#define	SIG_UNBLOCK   1		 /* Unblock signals */
+#define	SIG_SETMASK   2		 /* Set the set of blocked signals */
 
 void SIGINT_handler(int signum)
 {
@@ -20,12 +20,21 @@ int main(void)
 
     signal(SIGINT, SIGINT_handler);
 
-    sigemptyset(&set);
-    sigaddset(&set, SIGINT);
+    if (sigemptyset(&set))
+    {
+    	perror("sigemptyset\n");
+        exit(1);
+    }
+
+    if (sigaddset(&set, SIGINT) == -1)
+    {
+    	perror("sigaddset\n");
+        exit(1);
+    }
 
     if (sigprocmask(SIG_BLOCK, &set, &oldset) == -1)
     {
-        perror("sigprocmask failed");
+        perror("sigprocmask\n");
         exit(1);
     }
 

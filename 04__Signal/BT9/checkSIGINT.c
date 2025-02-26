@@ -10,13 +10,13 @@ int main(void)
 
     if (sigprocmask(0, NULL, &oldset) == -1)
     {
-        perror("sigprocmask failed");
+        perror("sigprocmask\n");
         exit(1);
     }
 
     if ((u8CheckSignal = sigismember(&oldset, SIGINT)) == -1)
     {
-        perror("sigismember failed");
+        perror("sigismember\n");
         exit(1);
     }
     else
@@ -26,3 +26,4 @@ int main(void)
     
     return 0;
 }
+
