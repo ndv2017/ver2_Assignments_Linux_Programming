@@ -5,4 +5,4 @@ all:
 
 clean:
 	rm -rf main
-	rm -rf test.txt
+
