@@ -20,17 +20,19 @@ void *thread_handler(void *args)
     human *data = (human *)args;
     pthread_t thread_ID_check = pthread_self();
     
-    if (thread_ID_check == thread1_id)
+    if (pthread_equal(thread_ID_check, thread1_id))
     {
         printf("Arbitrary message from thread1_id\n\n");
     }
-    else if (thread_ID_check == thread2_id)
+    else if (pthread_equal(thread_ID_check, thread2_id))
     {
         printf("Name: %s\n", data->name);
         printf("Year of birth: %d\n", data->year_of_birth);
         printf("Telephone number: %s\n", data->tele_num);
         printf("Hometown: %s\n", data->hometown);        
     }
+    else
+        printf("pthread_equal failed\n");
 }
 
 int main(int argc, char const *argv[])
@@ -65,3 +67,4 @@ int main(int argc, char const *argv[])
 
     return 0;
 }
+
